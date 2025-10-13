@@ -1,228 +1,345 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Math Competency Exam</title>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Math Competency Exam — Interactive</title>
 
   <!-- Bootstrap CSS -->
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
 
   <style>
     body {
-      background: url('https://images.unsplash.com/photo-1503676260728-1c00da094a0b') no-repeat center center fixed;
-      background-size: cover;
-      font-family: 'Poppins', sans-serif;
+      background: url('https://images.unsplash.com/photo-1503676260728-1c00da094a0b') center/cover fixed no-repeat;
+      font-family: "Poppins", system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+      padding: 30px 12px;
     }
-
     .exam-container {
-      background-color: rgba(255, 255, 255, 0.93);
-      border-radius: 15px;
-      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
-      padding: 2rem 3rem;
-      margin: 3rem auto;
-      max-width: 850px;
+      max-width: 980px;
+      margin: 2rem auto;
+      background: rgba(255,255,255,0.95);
+      padding: 28px;
+      border-radius: 12px;
+      box-shadow: 0 8px 30px rgba(10,20,40,0.12);
+    }
+    h1 { text-align:center; font-weight:700; color:#1d3557; margin-bottom:8px; }
+    h3 { color:#264653; margin-top:1.6rem; border-bottom:2px solid #e6f2f2; padding-bottom:.4rem; }
+    ol { padding-left: 1.1rem; }
+    li { margin: .85rem 0; }
+    input[type="text"] { width: 260px; display:inline-block; }
+    .btn-submit {
+      display:block;
+      margin: 1.8rem auto 0;
+      background:#1d3557;
+      color:#fff;
+      border:none;
+      padding: .6rem 1.4rem;
+      border-radius: 28px;
+      font-size:1.05rem;
     }
 
-    h1 {
-      text-align: center;
-      font-weight: 700;
-      color: #1d3557;
-      margin-bottom: 1rem;
-    }
-
-    h3 {
-      color: #264653;
-      margin-top: 2rem;
-      border-bottom: 2px solid #a8dadc;
-      padding-bottom: 0.4rem;
-    }
-
-    label {
-      font-weight: 500;
-      margin-top: 0.5rem;
-    }
-
-    .submit-btn {
-      display: block;
-      margin: 2rem auto 0 auto;
-      background-color: #1d3557;
-      border: none;
-      padding: 0.8rem 2.5rem;
-      border-radius: 30px;
-      color: white;
-      font-size: 1.2rem;
-      transition: background 0.3s;
-    }
-
-    .submit-btn:hover {
-      background-color: #457b9d;
-    }
-
-    .answer {
-      color: #2a9d8f;
-      font-weight: 600;
-      margin-left: 10px;
-    }
+    /* Feedback styles */
+    .feedback-wrap { margin-left: 10px; display:inline-flex; gap:8px; align-items:center; }
+    .student { font-weight:600; color:#333; background:#fff3cd; padding:4px 8px; border-radius:6px; border:1px solid #ffe8a8; }
+    .correct { font-weight:700; color:#0b6623; background:#ecf9f0; padding:4px 8px; border-radius:6px; border:1px solid #bfe9c9; }
+    .incorrect { font-weight:700; color:#8b1d1d; background:#fff0f0; padding:4px 8px; border-radius:6px; border:1px solid #f2c6c6; }
+    .answer-label { color: #666; font-size: .92rem; margin-right:6px; }
+    .small-note { font-size:.92rem; color:#555; margin-top:6px; }
+    @media (max-width:720px){ input[type="text"]{ width: 100%; } .feedback-wrap{ display:block; margin-top:6px; } }
   </style>
 </head>
 <body>
-
   <div class="exam-container">
-    <h1>Math Competency Exam</h1>
-    <form id="examForm">
-      
-      <h3>Test I – Identification</h3>
+    <h1>Exponents & Radicals — Competency Exam</h1>
+    <p class="small-note">Fill answers in the boxes or select the radio buttons. When you click <strong>Submit</strong>, your answer will remain and the correct answer will be shown to the right. Correct/incorrect highlights will appear accordingly.</p>
+
+    <form id="examForm" autocomplete="off">
+      <h3>Test I — Identification</h3>
       <ol id="identification"></ol>
 
-      <h3>Test II – Multiple Choice</h3>
+      <h3>Test II — Multiple Choice</h3>
       <ol id="multipleChoice"></ol>
 
-      <h3>Test III – True or False</h3>
+      <h3>Test III — True / False</h3>
       <ol id="trueFalse"></ol>
 
-      <h3>Test IV – Simplify Algebraic Expressions</h3>
-      <ol id="algebra"></ol>
+      <h3>Test IV — Simplification</h3>
+      <ol id="simplify"></ol>
 
-      <h3>Test V – Radical Algebraic Expressions</h3>
-      <ol id="radicals"></ol>
+      <h3>Test V — Radical Algebraic Expressions</h3>
+      <ol id="operations"></ol>
 
-      <button type="button" class="submit-btn" onclick="checkAnswers()">Submit</button>
+      <button type="button" class="btn-submit" onclick="checkAnswers()">Submit</button>
     </form>
   </div>
 
-  <!-- Bootstrap JS -->
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+/* ---------------------
+   Utilities
+   --------------------- */
+// converts caret exponents like ^2 -> unicode superscript digits (2..9)
+function caretToSuperscript(s) {
+  if (!s && s !== "") return s;
+  return s
+    .replace(/\^2/g, "²").replace(/\^3/g, "³").replace(/\^4/g, "⁴")
+    .replace(/\^5/g, "⁵").replace(/\^6/g, "⁶").replace(/\^7/g, "⁷")
+    .replace(/\^8/g, "⁸").replace(/\^9/g, "⁹");
+}
 
-  <script>
-    // Helper: normalize exponents (x^2 = x²)
-    function normalizeExponent(text) {
-      return text
-        .replace(/\^2/g, "²")
-        .replace(/\^3/g, "³")
-        .replace(/\^4/g, "⁴")
-        .replace(/\^5/g, "⁵")
-        .replace(/\^6/g, "⁶")
-        .replace(/\^7/g, "⁷")
-        .replace(/\^8/g, "⁸")
-        .replace(/\^9/g, "⁹");
-    }
+// normalize both user's answer and expected answer for fair comparison:
+// - trim, lowercase
+// - convert ^N to superscript
+// - remove redundant spaces
+function normalizeForCompare(s) {
+  if (s === undefined || s === null) return "";
+  s = String(s).trim();
+  s = s.replace(/\s+/g, "");
+  s = caretToSuperscript(s);
+  return s.toLowerCase();
+}
 
-    const tests = {
-      identification: [
-        { q: "The reciprocal of 3/5 is ___", a: "5/3" },
-        { q: "√64 = ___", a: "8" },
-        { q: "2³ = ___", a: "8" },
-        { q: "(1/2) + (1/3) = ___", a: "5/6" },
-        { q: "(3/4) - (1/8) = ___", a: "5/8" },
-        { q: "√81 = ___", a: "9" },
-        { q: "10² = ___", a: "100" },
-        { q: "½ of 24 = ___", a: "12" },
-        { q: "√49 = ___", a: "7" },
-        { q: "(2/3) of 18 = ___", a: "12" }
-      ],
-      multipleChoice: [
-        { q: "What is √36?", choices: ["5", "6", "7", "8"], a: "6" },
-        { q: "Simplify 2³ × 2²", choices: ["2⁵", "2⁶", "4⁵", "8⁵"], a: "2⁵" },
-        { q: "9² = ?", choices: ["18", "81", "27", "90"], a: "81" },
-        { q: "5³ = ?", choices: ["25", "75", "125", "150"], a: "125" },
-        { q: "10⁰ = ?", choices: ["1", "0", "10", "100"], a: "1" },
-        { q: "√100 = ?", choices: ["10", "20", "50", "100"], a: "10" },
-        { q: "(½) × (¼) = ?", choices: ["1/6", "1/4", "1/8", "1/2"], a: "1/8" },
-        { q: "Simplify 2(3 + 4)", choices: ["14", "12", "8", "10"], a: "14" },
-        { q: "(3/5) of 25 = ?", choices: ["10", "12", "15", "20"], a: "15" },
-        { q: "4² + 3² = ?", choices: ["12", "13", "25", "10"], a: "25" }
-      ],
-      trueFalse: [
-        { q: "√81 = 9", a: "True" },
-        { q: "5³ = 120", a: "False" },
-        { q: "2² + 3² = 13", a: "True" },
-        { q: "√49 = 6", a: "False" },
-        { q: "(1/2) + (1/2) = 1", a: "True" },
-        { q: "10⁰ = 1", a: "True" },
-        { q: "7 × 8 = 56", a: "True" },
-        { q: "√16 = 5", a: "False" },
-        { q: "(2/3) of 12 = 6", a: "True" },
-        { q: "9² = 90", a: "False" }
-      ],
-      algebra: [
-        { q: "Simplify: 2x + 3x = ___", a: "5x" },
-        { q: "Simplify: 4a + 7a = ___", a: "11a" },
-        { q: "Simplify: 5x - 3x = ___", a: "2x" },
-        { q: "Simplify: 3m + 2m + m = ___", a: "6m" },
-        { q: "Simplify: 2x(3 + 2) = ___", a: "10x" },
-        { q: "Simplify: (x²)(x³) = ___", a: "x⁵" },
-        { q: "Simplify: 3(x + 4) = ___", a: "3x + 12" },
-        { q: "Simplify: (2x)(3y) = ___", a: "6xy" },
-        { q: "Simplify: (a²)(a³) = ___", a: "a⁵" },
-        { q: "Simplify: (4x)(2x²) = ___", a: "8x³" }
-      ],
-      radicals: [
-        { q: "Simplify: √(49x²) = ___", a: "7x" },
-        { q: "Simplify: √(81y⁴) = ___", a: "9y²" },
-        { q: "Simplify: √(16x²) = ___", a: "4x" },
-        { q: "Simplify: √(25a⁴) = ___", a: "5a²" },
-        { q: "Simplify: √(100b²) = ___", a: "10b" },
-        { q: "Simplify: √(9m⁴) = ___", a: "3m²" },
-        { q: "Simplify: √(4x⁶) = ___", a: "2x³" },
-        { q: "Simplify: √(49p²) = ___", a: "7p" },
-        { q: "Simplify: √(36q⁴) = ___", a: "6q²" },
-        { q: "Simplify: √(64r²) = ___", a: "8r" }
-      ]
-    };
+/* ---------------------
+   Questions (default set)
+   You said you'll give topics and I will auto-generate using this layout.
+   Keep canonical answers simple strings. Use ^ in canonical answers if you prefer.
+   --------------------- */
+const tests = {
+  identification: [
+    { q: "The reciprocal of 3/5 is ___", a: "5/3" },
+    { q: "√64 = ___", a: "8" },
+    { q: "2^3 = ___", a: "8" },
+    { q: "(1/2) + (1/3) = ___", a: "5/6" },
+    { q: "(3/4) - (1/8) = ___", a: "5/8" },
+    { q: "√81 = ___", a: "9" },
+    { q: "10^2 = ___", a: "100" },
+    { q: "1/2 of 24 = ___", a: "12" },
+    { q: "√49 = ___", a: "7" },
+    { q: "(2/3) of 18 = ___", a: "12" }
+  ],
+  multipleChoice: [
+    { q: "What is √36?", choices: ["5", "6", "7", "8"], a: "6" },
+    { q: "Simplify 2^3 × 2^2", choices: ["2^5", "2^6", "4^5", "8^5"], a: "2^5" },
+    { q: "9^2 = ?", choices: ["18", "81", "27", "90"], a: "81" },
+    { q: "5^3 = ?", choices: ["25", "75", "125", "150"], a: "125" },
+    { q: "10^0 = ?", choices: ["1", "0", "10", "100"], a: "1" },
+    { q: "√100 = ?", choices: ["10", "20", "50", "100"], a: "10" },
+    { q: "(1/2) × (1/4) = ?", choices: ["1/6", "1/4", "1/8", "1/2"], a: "1/8" },
+    { q: "Simplify 2(3 + 4)", choices: ["14", "12", "8", "10"], a: "14" },
+    { q: "(3/5) of 25 = ?", choices: ["10", "12", "15", "20"], a: "15" },
+    { q: "4^2 + 3^2 = ?", choices: ["12", "13", "25", "10"], a: "25" }
+  ],
+  trueFalse: [
+    { q: "√81 = 9", a: "True" },
+    { q: "5^3 = 120", a: "False" },
+    { q: "2^2 + 3^2 = 13", a: "True" },
+    { q: "√49 = 6", a: "False" },
+    { q: "(1/2) + (1/2) = 1", a: "True" },
+    { q: "10^0 = 1", a: "True" },
+    { q: "7 × 8 = 56", a: "True" },
+    { q: "√16 = 5", a: "False" },
+    { q: "(2/3) of 12 = 6", a: "True" },
+    { q: "9^2 = 90", a: "False" }
+  ],
+  simplify: [
+    { q: "√75", a: "5√3" },
+    { q: "√(48x^2)", a: "4x√3" },
+    { q: "√(18a^4b^2)", a: "3a^2b√2" },
+    { q: "√(32x^6y^4)", a: "4x^3y^2√2" },
+    { q: "√200", a: "10√2" },
+    { q: "³√(54x^5y^3)", a: "3xy√[3](2x^2)" },
+    { q: "√(98a^2b^5)", a: "7ab^2√(2b)" },
+    { q: "√(300x^2y^4)", a: "10xy^2√3" },
+    { q: "√[4](16x^8y^12)", a: "2x^2y^3" },
+    { q: "√(250x^4y^2)", a: "5x^2y√10" }
+  ],
+  operations: [
+    { q: "√(8x^2) + √(2x^2)", a: "3x√2" },
+    { q: "3√(5y) + 7√(5y)", a: "10√(5y)" },
+    { q: "5√(6a^3) − 2√(24a^3)", a: "a√6" },
+    { q: "4√(3x) − 2√(12x) + √(27x)", a: "3√(3x)" },
+    { q: "(3√(2x))(2√(3x))", a: "6x√6" },
+    { q: "(5√a + 3√b)(√a − 2√b)", a: "5a − 7√(ab) − 6b" },
+    { q: "(√(5x) + 2√y)^2", a: "5x + 4√(5xy) + 4y" },
+    { q: "√(18x^3)/√(2x)", a: "3x√x" },
+    { q: "(2√(3x) − √(12x))√x", a: "0" },
+    { q: "5/√x + 3/√x", a: "8/√x" }
+  ]
+};
 
-    function renderQuestions() {
-      for (const section in tests) {
-        const container = document.getElementById(section);
-        tests[section].forEach((item, i) => {
-          let html = `<li>${item.q} `;
-          if (section === 'multipleChoice') {
-            item.choices.forEach(choice => {
-              html += `<div><input type="radio" name="${section}_${i}" value="${choice}"> ${choice}</div>`;
-            });
-          } else if (section === 'trueFalse') {
-            html += `
-              <div><input type="radio" name="${section}_${i}" value="True"> True</div>
-              <div><input type="radio" name="${section}_${i}" value="False"> False</div>`;
-          } else {
-            html += `<input type="text" class="form-control d-inline w-auto" name="${section}_${i}" />`;
-          }
-          html += `</li>`;
-          container.innerHTML += html;
+/* ---------------------
+   Render questions into the page
+   --------------------- */
+function render() {
+  for (const section of Object.keys(tests)) {
+    const container = document.getElementById(section);
+    container.innerHTML = ""; // reset
+    tests[section].forEach((item, i) => {
+      const li = document.createElement('li');
+
+      // question text
+      const qText = document.createElement('span');
+      qText.textContent = item.q + " ";
+      li.appendChild(qText);
+
+      // create input depending on type
+      if (section === 'multipleChoice') {
+        // choices as radio
+        item.choices.forEach(choice => {
+          const id = `${section}_${i}_${choice.replace(/\s+/g,'')}`;
+          const wrap = document.createElement('div');
+          wrap.className = "form-check form-check-inline";
+          const r = document.createElement('input');
+          r.className = "form-check-input";
+          r.type = "radio";
+          r.name = `${section}_${i}`;
+          r.id = id;
+          r.value = choice;
+          const lbl = document.createElement('label');
+          lbl.className = "form-check-label";
+          lbl.htmlFor = id;
+          lbl.textContent = choice;
+          wrap.appendChild(r);
+          wrap.appendChild(lbl);
+          li.appendChild(wrap);
         });
+      } else if (section === 'trueFalse') {
+        const wrapT = document.createElement('div');
+        wrapT.className = "form-check form-check-inline";
+        const rT = document.createElement('input');
+        rT.className = "form-check-input";
+        rT.type = "radio"; rT.name = `${section}_${i}`; rT.id = `${section}_${i}_T`; rT.value = "True";
+        const lblT = document.createElement('label'); lblT.className="form-check-label"; lblT.htmlFor = rT.id; lblT.textContent="True";
+        wrapT.appendChild(rT); wrapT.appendChild(lblT);
+
+        const wrapF = document.createElement('div');
+        wrapF.className = "form-check form-check-inline";
+        const rF = document.createElement('input');
+        rF.className = "form-check-input";
+        rF.type = "radio"; rF.name = `${section}_${i}`; rF.id = `${section}_${i}_F`; rF.value = "False";
+        const lblF = document.createElement('label'); lblF.className="form-check-label"; lblF.htmlFor = rF.id; lblF.textContent="False";
+        wrapF.appendChild(rF); wrapF.appendChild(lblF);
+
+        li.appendChild(wrapT); li.appendChild(wrapF);
+      } else {
+        // text input
+        const input = document.createElement('input');
+        input.type = "text";
+        input.className = "form-control d-inline w-auto";
+        input.name = `${section}_${i}`;
+        // keep previously typed value if re-render
+        li.appendChild(input);
       }
-    }
 
-    function checkAnswers() {
-      let score = 0, total = 0;
-      for (const section in tests) {
-        const container = document.getElementById(section);
-        const listItems = container.querySelectorAll('li');
+      // placeholder for feedback (student + correct)
+      const fb = document.createElement('span');
+      fb.className = "feedback-wrap";
+      // will append children later when grading
+      li.appendChild(fb);
 
-        tests[section].forEach((item, i) => {
-          total++;
-          const inputs = document.getElementsByName(`${section}_${i}`);
-          let ans = "";
-          if (inputs[0].type === "radio") {
-            for (const opt of inputs) if (opt.checked) ans = opt.value;
-          } else {
-            ans = inputs[0].value.trim();
-          }
+      container.appendChild(li);
+    });
+  }
+}
 
-          ans = normalizeExponent(ans);
-          const correct = normalizeExponent(item.a.trim());
+/* ---------------------
+   Grading & feedback
+   --------------------- */
+function removePreviousFeedback() {
+  document.querySelectorAll('.feedback-wrap').forEach(fb => { fb.innerHTML = ""; });
+}
 
-          const li = listItems[i];
-          li.querySelector(".answer")?.remove();
-          if (ans.toLowerCase() === correct.toLowerCase()) score++;
+function getUserAnswer(section, i) {
+  const name = `${section}_${i}`;
+  const inputs = document.getElementsByName(name);
+  if (!inputs || inputs.length === 0) return "";
+  const first = inputs[0];
+  if (first.type === "radio") {
+    for (const r of inputs) if (r.checked) return r.value;
+    return ""; // none chosen
+  } else {
+    return first.value;
+  }
+}
 
-          li.innerHTML += `<span class="answer">(${item.a})</span>`;
-        });
-      }
-      alert(`Your score: ${score}/${total}`);
-    }
+function showFeedback(section, i, studentAnsRaw) {
+  const container = document.getElementById(section);
+  const li = container.children[i];
+  const fbWrap = li.querySelector('.feedback-wrap');
 
-    renderQuestions();
-  </script>
+  // remove previous children (safe even if none)
+  fbWrap.innerHTML = "";
+
+  const studSpan = document.createElement('span');
+  studSpan.className = "student";
+  const studentAns = (studentAnsRaw === "" ? "(blank)" : studentAnsRaw);
+  studSpan.textContent = `Your: ${studentAns}`;
+
+  const correctSpan = document.createElement('span');
+  // decide correct/incorrect color after determining match
+  // We'll return the correct answer as canonical string (with ^ converted to superscript visually)
+  const canonical = tests[section][i].a;
+  const canonicalDisplay = caretToSuperscript(String(canonical));
+
+  // compare normalized
+  const normUser = normalizeForCompare(studentAnsRaw);
+  const normCorrect = normalizeForCompare(canonical);
+
+  if (normUser !== "" && normUser === normCorrect) {
+    correctSpan.className = "correct";
+    correctSpan.textContent = `Correct ✓ (${canonicalDisplay})`;
+  } else {
+    correctSpan.className = "incorrect";
+    correctSpan.textContent = `Answer ✗ (${canonicalDisplay})`;
+  }
+
+  // append label + student + correct
+  const label = document.createElement('span'); label.className = 'answer-label'; label.textContent = '';
+  fbWrap.appendChild(label);
+  fbWrap.appendChild(studSpan);
+  fbWrap.appendChild(correctSpan);
+}
+
+/* ---------------------
+   Main grade function
+   --------------------- */
+function checkAnswers() {
+  removePreviousFeedback();
+  let score = 0, total = 0;
+
+  for (const section of Object.keys(tests)) {
+    tests[section].forEach((item, i) => {
+      const userRaw = getUserAnswer(section, i);
+      const normUser = normalizeForCompare(userRaw);
+      const normCorrect = normalizeForCompare(item.a);
+      if (normUser !== "" && normUser === normCorrect) score++;
+      // For blank answers we consider incorrect (not counted correct)
+      total++;
+      showFeedback(section, i, userRaw);
+    });
+  }
+
+  // show final score as Bootstrap-styled modal-like toast area
+  const prev = document.getElementById('scoreBox');
+  if (prev) prev.remove();
+  const scoreBox = document.createElement('div');
+  scoreBox.id = 'scoreBox';
+  scoreBox.className = 'mt-3 p-3 rounded-3';
+  scoreBox.style.background = 'linear-gradient(90deg,#ecf9f0,#f0f9ff)';
+  scoreBox.style.border = '1px solid #cfeee0';
+  scoreBox.style.fontWeight = '700';
+  scoreBox.style.color = '#0b6623';
+  scoreBox.textContent = `Score: ${score} / ${total}  —  (${Math.round((score/total)*100)}%)`;
+  // insert before the submit button
+  document.querySelector('.btn-submit').insertAdjacentElement('beforebegin', scoreBox);
+
+  // scroll result into view
+  scoreBox.scrollIntoView({behavior:'smooth', block:'center'});
+}
+
+/* ---------------------
+   Init
+   --------------------- */
+render();
+</script>
 </body>
 </html>
