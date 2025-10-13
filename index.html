@@ -1,198 +1,206 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Exponents and Radicals Exam</title>
-<style>
-  body {
-    font-family: "Segoe UI", Arial, sans-serif;
-    margin: 40px;
-    background-color: #f8f9fa;
-    color: #222;
-  }
-  h2, h3 {
-    color: #2c3e50;
-  }
-  .section {
-    background: #fff;
-    border-radius: 10px;
-    padding: 20px;
-    margin-bottom: 25px;
-    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-  }
-  ol {
-    line-height: 1.9em;
-  }
-  .answer {
-    color: green;
-    font-weight: bold;
-    margin-left: 10px;
-  }
-  button {
-    background-color: #007bff;
-    color: white;
-    border: none;
-    padding: 12px 24px;
-    border-radius: 8px;
-    font-size: 16px;
-    cursor: pointer;
-  }
-  button:hover {
-    background-color: #0056b3;
-  }
-</style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Math Competency Exam</title>
+
+  <!-- Bootstrap CSS (Online Source) -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+
+  <style>
+    body {
+      background: url('https://images.unsplash.com/photo-1503676260728-1c00da094a0b') no-repeat center center fixed;
+      background-size: cover;
+      font-family: 'Poppins', sans-serif;
+    }
+
+    .exam-container {
+      background-color: rgba(255, 255, 255, 0.93);
+      border-radius: 15px;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+      padding: 2rem 3rem;
+      margin: 3rem auto;
+      max-width: 850px;
+    }
+
+    h1 {
+      text-align: center;
+      font-weight: 700;
+      color: #1d3557;
+      margin-bottom: 1rem;
+    }
+
+    h3 {
+      color: #264653;
+      margin-top: 2rem;
+      border-bottom: 2px solid #a8dadc;
+      padding-bottom: 0.4rem;
+    }
+
+    label {
+      font-weight: 500;
+      margin-top: 0.5rem;
+    }
+
+    .submit-btn {
+      display: block;
+      margin: 2rem auto 0 auto;
+      background-color: #1d3557;
+      border: none;
+      padding: 0.8rem 2.5rem;
+      border-radius: 30px;
+      color: white;
+      font-size: 1.2rem;
+      transition: background 0.3s;
+    }
+
+    .submit-btn:hover {
+      background-color: #457b9d;
+    }
+
+    .answer {
+      color: #2a9d8f;
+      font-weight: 600;
+      margin-left: 10px;
+    }
+  </style>
 </head>
 <body>
 
-<h2>📘 Exponents and Radicals — Competency-Based Exam</h2>
+  <div class="exam-container">
+    <h1>Math Competency Exam</h1>
+    <form id="examForm">
+      
+      <h3>Test I – Identification</h3>
+      <ol id="identification"></ol>
 
-<form id="examForm">
+      <h3>Test II – Multiple Choice</h3>
+      <ol id="multipleChoice"></ol>
 
-<!-- I. MULTIPLE CHOICE -->
-<div class="section">
-<h3>I. Multiple Choice</h3>
-<p><em>(Competency 1: Apply the laws involving positive, zero, and negative integral exponents)</em></p>
-<ol id="mcq">
-<li>a⁰ = _____</li>
-<li>5⁻² = _____</li>
-<li>x³ · x⁴ = _____</li>
-<li>(2³)⁴ = _____</li>
-<li>x⁵ ÷ x² = _____</li>
-<li>(a⁴b³)² = _____</li>
-<li>(x⁻³)⁻² = _____</li>
-<li>(2x⁻³) ÷ (x²) = _____</li>
-<li>(ab)⁻² = _____</li>
-<li>(3x⁰y²) ÷ y² = _____</li>
-</ol>
-</div>
+      <h3>Test III – True or False</h3>
+      <ol id="trueFalse"></ol>
 
-<!-- II. TRUE OR FALSE -->
-<div class="section">
-<h3>II. True or False</h3>
-<p><em>(Competency 2: Simplify expressions with rational exponents)</em></p>
-<ol id="tf">
-<li>8^(2/3) = 4</li>
-<li>32^(1/5) = 4</li>
-<li>27^(1/3) = 2</li>
-<li>16^(3/4) = 8</li>
-<li>125^(2/3) = 25</li>
-<li>9^(1/2) = 2</li>
-<li>81^(3/4) = 27</li>
-<li>64^(2/3) = 8</li>
-<li>49^(1/2) = 7</li>
-<li>243^(2/5) = 10</li>
-</ol>
-</div>
+      <h3>Test IV – Simplify Algebraic Expressions</h3>
+      <ol id="algebra"></ol>
 
-<!-- III. IDENTIFICATION -->
-<div class="section">
-<h3>III. Identification</h3>
-<p><em>(Competency 3: Write expressions with rational exponents as radicals and vice versa)</em></p>
-<ol id="identification">
-<li>x^(3/2) → ?</li>
-<li>y^(4/3) → ?</li>
-<li>√[5](a²) → ?</li>
-<li>√[4](x⁷) → ?</li>
-<li>x^(1/3) → ?</li>
-<li>√(x⁵) → ?</li>
-<li>y^(2/5) → ?</li>
-<li>√[6](z⁴) → ?</li>
-<li>(m^(1/2))³ → ?</li>
-<li>√[3](p⁵) → ?</li>
-</ol>
-</div>
+      <h3>Test V – Radical Algebraic Expressions</h3>
+      <ol id="radicals"></ol>
 
-<!-- IV. SIMPLIFICATION -->
-<div class="section">
-<h3>IV. Simplification</h3>
-<p><em>(Competency 4: Simplify radical expressions using the laws of radicals)</em></p>
-<ol id="simplify">
-<li>√75</li>
-<li>√48x²</li>
-<li>√18a⁴b²</li>
-<li>√32x⁶y⁴</li>
-<li>√200</li>
-<li>³√(54x⁵y³)</li>
-<li>√98a²b⁵</li>
-<li>√300x²y⁴</li>
-<li>√[4](16x⁸y¹²)</li>
-<li>√250x⁴y²</li>
-</ol>
-</div>
+      <button type="button" class="submit-btn" onclick="checkAnswers()">Submit</button>
+    </form>
+  </div>
 
-<!-- V. OPERATIONS -->
-<div class="section">
-<h3>V. Operations on Radical Expressions</h3>
-<p><em>(Competency 5: Perform operations on radical expressions)</em></p>
-<ol id="operations">
-<li>√(8x²) + √(2x²)</li>
-<li>3√(5y) + 7√(5y)</li>
-<li>5√(6a³) − 2√(24a³)</li>
-<li>4√(3x) − 2√(12x) + √(27x)</li>
-<li>(3√(2x))(2√(3x))</li>
-<li>(5√a + 3√b)(√a − 2√b)</li>
-<li>(√(5x) + 2√y)²</li>
-<li>√(18x³)/√(2x)</li>
-<li>(2√(3x) − √(12x))(√x)</li>
-<li>5/√x + 3/√x</li>
-</ol>
-</div>
+  <!-- Bootstrap JS -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 
-<!-- VI. EQUATION SOLVING -->
-<div class="section">
-<h3>VI. Equation Solving</h3>
-<p><em>(Competency 6: Solve equations and problems involving radical expressions)</em></p>
-<ol id="equations">
-<li>√x = 9</li>
-<li>√(2x + 1) = 7</li>
-<li>√(x + 3) = 6</li>
-<li>√(3x − 2) = 4</li>
-<li>√(5x + 9) = 14</li>
-<li>√(x + 5) = x − 1</li>
-<li>2√x = 10</li>
-<li>√(2x − 4) + 2 = 6</li>
-<li>√(x + 4) = √(2x − 1)</li>
-<li>The area of a square is 169 cm². Find its side.</li>
-</ol>
-</div>
+  <script>
+    // Questions and Answers
+    const tests = {
+      identification: [
+        { q: "1. The reciprocal of 3/5 is ___", a: "5/3" },
+        { q: "2. √64 = ___", a: "8" },
+        { q: "3. 2³ = ___", a: "8" },
+        { q: "4. Simplify: (1/2) + (1/3) = ___", a: "5/6" },
+        { q: "5. Simplify: (3/4) - (1/8) = ___", a: "5/8" },
+        { q: "6. √81 = ___", a: "9" },
+        { q: "7. 10² = ___", a: "100" },
+        { q: "8. ½ of 24 = ___", a: "12" },
+        { q: "9. √49 = ___", a: "7" },
+        { q: "10. (2/3) of 18 = ___", a: "12" }
+      ],
+      multipleChoice: [
+        { q: "1. What is √36?", choices: ["5", "6", "7", "8"], a: "6" },
+        { q: "2. Simplify 2³ × 2²", choices: ["2⁵", "2⁶", "4⁵", "8⁵"], a: "2⁵" },
+        { q: "3. 9² = ?", choices: ["18", "81", "27", "90"], a: "81" },
+        { q: "4. 5³ = ?", choices: ["25", "75", "125", "150"], a: "125" },
+        { q: "5. 10⁰ = ?", choices: ["1", "0", "10", "100"], a: "1" },
+        { q: "6. √100 = ?", choices: ["10", "20", "50", "100"], a: "10" },
+        { q: "7. (½) × (¼) = ?", choices: ["1/6", "1/4", "1/8", "1/2"], a: "1/8" },
+        { q: "8. Simplify 2(3 + 4)", choices: ["14", "12", "8", "10"], a: "14" },
+        { q: "9. (3/5) of 25 = ?", choices: ["10", "12", "15", "20"], a: "15" },
+        { q: "10. 4² + 3² = ?", choices: ["12", "13", "25", "10"], a: "25" }
+      ],
+      trueFalse: [
+        { q: "1. √81 = 9", a: "True" },
+        { q: "2. 5³ = 120", a: "False" },
+        { q: "3. 2² + 3² = 13", a: "True" },
+        { q: "4. √49 = 6", a: "False" },
+        { q: "5. (1/2) + (1/2) = 1", a: "True" },
+        { q: "6. 10⁰ = 1", a: "True" },
+        { q: "7. 7 × 8 = 56", a: "True" },
+        { q: "8. √16 = 5", a: "False" },
+        { q: "9. (2/3) of 12 = 6", a: "True" },
+        { q: "10. 9² = 90", a: "False" }
+      ],
+      algebra: [
+        { q: "1. Simplify: 2x + 3x = ___", a: "5x" },
+        { q: "2. Simplify: 4a + 7a = ___", a: "11a" },
+        { q: "3. Simplify: 5x - 3x = ___", a: "2x" },
+        { q: "4. Simplify: 3m + 2m + m = ___", a: "6m" },
+        { q: "5. Simplify: 2x(3 + 2) = ___", a: "10x" },
+        { q: "6. Simplify: (x²)(x³) = ___", a: "x⁵" },
+        { q: "7. Simplify: 3(x + 4) = ___", a: "3x + 12" },
+        { q: "8. Simplify: (2x)(3y) = ___", a: "6xy" },
+        { q: "9. Simplify: (a²)(a³) = ___", a: "a⁵" },
+        { q: "10. Simplify: (4x)(2x²) = ___", a: "8x³" }
+      ],
+      radicals: [
+        { q: "1. Simplify: √(49x²) = ___", a: "7x" },
+        { q: "2. Simplify: √(81y⁴) = ___", a: "9y²" },
+        { q: "3. Simplify: √(16x²) = ___", a: "4x" },
+        { q: "4. Simplify: √(25a⁴) = ___", a: "5a²" },
+        { q: "5. Simplify: √(100b²) = ___", a: "10b" },
+        { q: "6. Simplify: √(9m⁴) = ___", a: "3m²" },
+        { q: "7. Simplify: √(4x⁶) = ___", a: "2x³" },
+        { q: "8. Simplify: √(49p²) = ___", a: "7p" },
+        { q: "9. Simplify: √(36q⁴) = ___", a: "6q²" },
+        { q: "10. Simplify: √(64r²) = ___", a: "8r" }
+      ]
+    };
 
-</form>
-
-<button type="button" onclick="showAnswers()">Show ANSWERS!</button>
-
-<script>
-function showAnswers() {
-  const answers = {
-    mcq: ["1","1/25","x⁷","2¹²","x³","a⁸b⁶","x⁶","2/x⁵","1/(a²b²)","3"],
-    // ✅ randomized true/false mix
-    tf: ["T","F","F","T","T","F","T","F","T","F"],
-    identification: ["√(x³)","³√(y⁴)","a^(2/5)","x^(7/4)","³√x","x^(5/2)","⁵√(y²)","z^(2/3)","√(m³)","p^(5/3)"],
-    simplify: ["5√3","4x√3","3a²b√2","4x³y²√2","10√2","3xy√[3](2x²)","7ab²√(2b)","10xy²√3","2x²y³","5x²y√10"],
-    operations: ["3x√2","10√(5y)","a√6","3√(3x)","6x√6","5a − 7√(ab) − 6b","5x + 4√(5xy) + 4y","3x√x","0","8/√x"],
-    equations: ["81","24","33","6","37","3","25","18","5","13 cm"]
-  };
-
-  function revealAnswers(listId, correctList) {
-    const list = document.getElementById(listId).getElementsByTagName('li');
-    for (let i = 0; i < correctList.length; i++) {
-      const span = document.createElement('span');
-      span.className = 'answer';
-      span.textContent = " → " + correctList[i];
-      list[i].appendChild(span);
+    function renderQuestions() {
+      for (const section in tests) {
+        const container = document.getElementById(section);
+        tests[section].forEach((item, i) => {
+          let html = `<li>${item.q} `;
+          if (section === 'multipleChoice') {
+            item.choices.forEach(choice => {
+              html += `<div><input type="radio" name="${section}_${i}" value="${choice}"> ${choice}</div>`;
+            });
+          } else if (section === 'trueFalse') {
+            html += `
+              <div><input type="radio" name="${section}_${i}" value="True"> True</div>
+              <div><input type="radio" name="${section}_${i}" value="False"> False</div>`;
+          } else {
+            html += `<input type="text" class="form-control d-inline w-auto" name="${section}_${i}" />`;
+          }
+          html += `</li>`;
+          container.innerHTML += html;
+        });
+      }
     }
-  }
 
-  revealAnswers('mcq', answers.mcq);
-  revealAnswers('tf', answers.tf);
-  revealAnswers('identification', answers.identification);
-  revealAnswers('simplify', answers.simplify);
-  revealAnswers('operations', answers.operations);
-  revealAnswers('equations', answers.equations);
+    function checkAnswers() {
+      let score = 0, total = 0;
+      for (const section in tests) {
+        tests[section].forEach((item, i) => {
+          total++;
+          const input = document.querySelector(`[name="${section}_${i}"]:checked`) || document.querySelector(`[name="${section}_${i}"]`);
+          const ans = input ? input.value.trim() : "";
+          const correct = item.a.trim();
+          const parent = input.closest('li');
+          if (ans.toLowerCase() === correct.toLowerCase()) {
+            score++;
+          }
+          parent.querySelector('.answer')?.remove();
+          parent.innerHTML += `<span class="answer">(${correct})</span>`;
+        });
+      }
+      alert(`Your score: ${score}/${total}`);
+    }
 
-  alert("Answers added beside each question!");
-}
-</script>
-
+    renderQuestions();
+  </script>
 </body>
 </html>
